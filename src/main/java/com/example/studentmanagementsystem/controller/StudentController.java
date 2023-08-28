@@ -8,6 +8,7 @@ import com.example.studentmanagementsystem.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
+
     @PostMapping("/addNew")
     public ResponseEntity<String> addNewStudent(@RequestBody StudentRequestDto studentRequestDto) {
         studentService.addNewStudent(studentRequestDto);
@@ -51,7 +53,7 @@ public class StudentController {
         return ResponseEntity.ok("Password Changed Successfully");
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable("id") int id) {
         studentService.deleteStudent(id);

@@ -1,0 +1,20 @@
+Unit testing or Component testing is a software testing techie in which single component of software is tested.
+The objective here is to pick each unit(code) and verify it.
+
+Mocking refers to the development of objects which are mock or clone of real objects.
+In this technique mock object is used instead of real objects for testing
+Mock object give a particular output for each particular input
+Mockito is the most popular framework used for mocking
+    Mockito is a java based framework used for unit testing of java applications
+    This mocking framework helps in development of testable applications
+    Java Reflection API used internally to generate mock objects
+    Mockito is used to simplify the test development by mocking external dependencies and using them in the code
+    When a component is to be tested, but that component depends on some other component, which is under development
+    When the real components performs slowly, then mock objects are used to perform testing
+    When there are any concerns with the infrastructure that makes the testing impossible
+
+Stub
+Stub are objects holding predefined data and uses the data to give responses during the tests.
+It can be refereed to as object that looks like a real object with least number of methods
+Stubs return the predefined outputs no matter what the input is.
+These stubs are used to reduce complexities that occur while creating the real objects

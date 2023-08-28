@@ -61,7 +61,9 @@ public class SecurityConfig {
         log.info("For JPA Security");
         return httpSecurity.csrf().disable()
                 .userDetailsService(studentDetails)
+
                 .formLogin()
+
                 .and()
                 .httpBasic()
                 .and()

@@ -1,16 +1,12 @@
 package com.example.studentmanagementsystem.serviceimpl;
 
-import com.example.studentmanagementsystem.config.SecurityConfig;
-import com.example.studentmanagementsystem.exception.ResourceNotFoundException;
+
 import com.example.studentmanagementsystem.model.Student;
 import com.example.studentmanagementsystem.repo.StudentRepo;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.PackagePrivate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

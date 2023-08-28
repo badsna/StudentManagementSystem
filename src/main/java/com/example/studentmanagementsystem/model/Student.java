@@ -48,7 +48,7 @@ public class Student implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "addressId")
     private Address address;
 

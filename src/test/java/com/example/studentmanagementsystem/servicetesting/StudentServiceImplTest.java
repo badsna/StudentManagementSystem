@@ -18,7 +18,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +34,8 @@ public class StudentServiceImplTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Mock
     private StudentRepo studentRepo;
-    @Mock
-    private PasswordEncoder passwordEncoder;
+   /* @Mock
+    private PasswordEncoder passwordEncoder;*/
     @Mock
     private AddressRepo addressRepo;
     @InjectMocks
@@ -85,18 +84,6 @@ public class StudentServiceImplTest {
     }
 
     @Test
-//    public void testAddNewStudentWithEmailAlreadyExists() {
-//        Address oldAddress = new Address(1, "benepa", "nala");
-//        StudentRequestDto oldStudent = new StudentRequestDto("badsna", "badsnastha@gmail.com", Gender.FEMALE, "badsna123",12, oldAddress);
-//
-//        Address newAddress = new Address(1, "benepa", "nala");
-//        StudentRequestDto newStudent = new StudentRequestDto("badsna", "badsnastha@gmail.com", Gender.FEMALE, "badsna123",21, newAddress);
-//
-//        when(studentRepo.findByEmail(newStudent.getEmail())).thenReturn(Optional.of(objectMapper.convertValue(oldStudent, Student.class)));
-//
-//        assertThrows(EmailAlreadyExistsException.class, () -> studentService.addNewStudent(newStudent));
-//    }
-    //@Test
     public void testAddNewStudentWithEmailAlreadyExists() {
         Address oldAddress = new Address(1, "benepa", "nala");
         StudentRequestDto oldStudent = new StudentRequestDto("badsna", "badsnastha@gmail.com", Gender.FEMALE, "badsna123",12, oldAddress);

@@ -3,7 +3,7 @@ package com.example.studentmanagementsystem.controller;
 import com.example.studentmanagementsystem.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
-    @PreAuthorize("hasAuthority('USER')")
+//    @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     public ResponseEntity<String> enrollment(@RequestParam("studentId") int studentId, @RequestParam int courseId) throws Exception {
 
