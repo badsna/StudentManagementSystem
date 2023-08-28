@@ -1,0 +1,9 @@
+within is used to match all join-points within specific classes or packages
+execution is used to match specific method executions based on their signature and parameters
+
+
+join-point represents a specific point in the program's execution where advice can be applied.
+proceedingJoinPoint extends the concept of a 'JoinPoint' and is specifically used for "around" advice. It allows you to control the execution of the original method by calling 'proceed()'
+
+The process of applying services or external services as transaction management or loggin to our application classes without modifying the code is AOP
+this services also called cross cutting concerns
