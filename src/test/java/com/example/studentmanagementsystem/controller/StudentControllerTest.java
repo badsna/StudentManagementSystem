@@ -44,8 +44,8 @@ class StudentControllerTest {
     @MockBean
     private StudentServiceImpl studentService;
 
-//this is not working
-  /*  @Test
+
+    @Test
     @WithMockUser(authorities = "USER")
     public void testGetAllStudents() throws Exception {
         List<Address> addressList = new ArrayList<>();
@@ -62,7 +62,7 @@ class StudentControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
-    }*/
+    }
 
     @Test
     @WithMockUser

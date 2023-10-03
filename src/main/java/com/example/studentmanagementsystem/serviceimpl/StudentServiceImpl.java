@@ -14,6 +14,8 @@ import com.example.studentmanagementsystem.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -62,7 +64,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Cacheable(value = "students")
     public List<StudentResponseDto> getAllStudents() {
+        log.info("shefwnekfdjoiwd");
         List<Student> studentList = studentRepo.findAll();
         List<StudentResponseDto> studentResponseDtos = new ArrayList<>();
         for (Student student : studentList) {
@@ -72,6 +76,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Cacheable(value = "students", key = "#id")
     public StudentResponseDto getStudentById(int id) {
         if (id <= 0) {
             throw new IdNotValidException("Given id " + id + " is not valid. Please enter valid id");
@@ -82,7 +87,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @CacheEvict(value = "students",allEntries = true)
     public void addNewStudent(StudentRequestDto studentRequestDto) {
+        log.info("heloooooooooooooooo");
         Optional<Student> existingStudent = studentRepo.findByEmail(studentRequestDto.getEmail());
 
         if (existingStudent.isPresent()) {
@@ -107,6 +114,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "students",allEntries = true)
     public void updateStudent(int id, StudentRequestDto studentRequestDto) {
         Student existingStudent = studentRepo.getStudentByIdAndStatus(id).orElseThrow(() -> new ResourceNotFoundException("Student with " + id + " doesn't exits at present"));
 
@@ -127,6 +135,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @CacheEvict(value = "students",key = "#id")
     public void deleteStudent(int id) {
         if (id <= 0) {
             throw new IdNotValidException("Given id " + id + " is not valid. Please enter valid id");
