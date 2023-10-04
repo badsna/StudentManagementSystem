@@ -64,9 +64,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Cacheable(value = "students")
+    @Cacheable(cacheNames = "studentLists", key = "'allStudents'")
     public List<StudentResponseDto> getAllStudents() {
-        log.info("shefwnekfdjoiwd");
+        log.debug("this is debug message");
+
         List<Student> studentList = studentRepo.findAll();
         List<StudentResponseDto> studentResponseDtos = new ArrayList<>();
         for (Student student : studentList) {
@@ -76,7 +77,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Cacheable(value = "students", key = "#id")
+    @Cacheable(cacheNames = "students")
     public StudentResponseDto getStudentById(int id) {
         if (id <= 0) {
             throw new IdNotValidException("Given id " + id + " is not valid. Please enter valid id");
@@ -87,7 +88,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @CacheEvict(value = "students",allEntries = true)
+    @CacheEvict(cacheNames = "students", allEntries = true)
     public void addNewStudent(StudentRequestDto studentRequestDto) {
         log.info("heloooooooooooooooo");
         Optional<Student> existingStudent = studentRepo.findByEmail(studentRequestDto.getEmail());
@@ -102,10 +103,9 @@ public class StudentServiceImpl implements StudentService {
 
         Student student = convertToStudent(studentRequestDto);
         student.setStatus(Status.ACTIVE);
-        if(student.getEmail().equals("badsnastha@gmail.com")){
+        if (student.getEmail().equals("badsnastha@gmail.com")) {
             student.setRole(Role.ADMIN);
-        }
-        else
+        } else
             student.setRole(Role.USER);
         student.setPassword(passwordEncoder.encode(student.getPassword()));
 
@@ -114,7 +114,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "students",allEntries = true)
+    @CacheEvict(cacheNames = "students", allEntries = true)
     public void updateStudent(int id, StudentRequestDto studentRequestDto) {
         Student existingStudent = studentRepo.getStudentByIdAndStatus(id).orElseThrow(() -> new ResourceNotFoundException("Student with " + id + " doesn't exits at present"));
 
@@ -135,7 +135,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @CacheEvict(value = "students",key = "#id")
+    @CacheEvict(cacheNames = "students")
     public void deleteStudent(int id) {
         if (id <= 0) {
             throw new IdNotValidException("Given id " + id + " is not valid. Please enter valid id");
@@ -147,7 +147,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentResponseDto> sortStudentBasedOnField(String field) {
-        List<Student> studentList = studentRepo.findAll(Sort.by(Sort.Direction.ASC,field));
+        List<Student> studentList = studentRepo.findAll(Sort.by(Sort.Direction.ASC, field));
         List<StudentResponseDto> studentResponseDtos = new ArrayList<>();
         for (Student student : studentList) {
             studentResponseDtos.add(convertToStudentResponseDto(student));
@@ -157,32 +157,30 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Page<Student> getStudentsWithPagination(int offset, int pageSize) {
-        return studentRepo.findAll(PageRequest.of(offset,pageSize));
+        return studentRepo.findAll(PageRequest.of(offset, pageSize));
     }
 
     @Override
     public void updatePassword(int id, ChangePasswordRequestDto changePasswordRequestDto) {
-        Student existingStudent=studentRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Student Not Found"));
-        boolean student= studentRepo.existsById(id);
-        if(student){
+        Student existingStudent = studentRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student Not Found"));
+        boolean student = studentRepo.existsById(id);
+        if (student) {
             /*//update garda entry garne old password
             String oldPassword= passwordEncoder.encode(changePasswordRequestDto.getOldPassword());*/
 
-            BCryptPasswordEncoder passwordEncoder1=new BCryptPasswordEncoder();
-           if( passwordEncoder1.matches(changePasswordRequestDto.getOldPassword(), existingStudent.getPassword()))
-           /* if(oldPassword.equals(existingStudent.get().getPassword()))*/{
+            BCryptPasswordEncoder passwordEncoder1 = new BCryptPasswordEncoder();
+            if (passwordEncoder1.matches(changePasswordRequestDto.getOldPassword(), existingStudent.getPassword()))
+                /* if(oldPassword.equals(existingStudent.get().getPassword()))*/ {
                 log.info("inside if>>if");
-                if(changePasswordRequestDto.getNewPassword().equals(changePasswordRequestDto.getRePassword())){
+                if (changePasswordRequestDto.getNewPassword().equals(changePasswordRequestDto.getRePassword())) {
                     log.info("inside if>>if>>if");
                     existingStudent.setPassword(passwordEncoder.encode(changePasswordRequestDto.getNewPassword()));
                     studentRepo.save(existingStudent);
-                }
-                else {
+                } else {
                     log.info("inside else for if>>if>>if");
                     throw new PasswordDoesntMatchException("New Password and Re Password doesnt match. Please try again!!!");
                 }
-            }
-            else {
+            } else {
                 log.info("inside else for if>>if");
                 throw new PasswordDoesntMatchException("Old Password doesnt matches");
             }
